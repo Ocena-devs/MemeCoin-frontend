@@ -1,0 +1,343 @@
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { 
+  Box, 
+  Typography, 
+  Stack,
+  Container,
+  useTheme,
+  useMediaQuery
+} from "@mui/material";
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import { ParticleBackground } from '../HomePage/ParticleBackground';
+import RoadmapItem from "./RoadmapItems";
+import SocialLinksPopup from "./Popup"; // Import the SocialLinksPopup component
+
+// Main Roadmap Component
+const RoadmapSection: React.FC = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isDarkMode = theme.palette.mode === 'dark';
+  const [animate, setAnimate] = useState(false);
+  const [showSocialPopup, setShowSocialPopup] = useState(false); // State for controlling social links popup
+  
+  useEffect(() => {
+    setAnimate(true);
+  }, []);
+  
+  // Handler for "Join Thai.Coin Now" button click with proper type
+  const handleJoinClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault(); // Prevent default navigation behavior
+    setShowSocialPopup(true); // Show the social links popup
+  };
+  
+  const roadmapData = [
+    {
+      phase: "Launch",
+      title: "Initial Team Building",
+      allocation: "0% – 0 Tokens",
+      percentage: 10,
+      items: [
+        "Recruiting core developers for smart contract and blockchain integration.",
+        "Onboarding marketing specialists for brand awareness and viral campaigns.",
+        "Exclusive access for early supporters and whitelist members.",
+        "Initiation of the Thai.Coin community."
+      ],
+      active: true,
+      completed: true
+    },
+    {
+      phase: "Staking & Rewards",
+      title: "Stake & Reward",
+      allocation: "20% – 2,000,000 Tokens",
+      percentage: 25,
+      items: [
+        "Introducing $THAI as our utility token for staking.",
+        "Staking platform launch with enticing rewards for participants.",
+        "Building a vibrant and engaged Thai.Coin staking community.",
+        "Continuous development for enhanced staking experiences."
+      ],
+      active: true,
+      completed: false
+    },
+    {
+      phase: "Marketing & Growth",
+      title: "Ecosystem Expansion",
+      allocation: "15% – 1,500,000 Tokens",
+      percentage: 50,
+      items: [
+        "Used for influencer partnerships, social media promotions, and exchange listings.",
+        "Community-building initiatives including giveaways, airdrops, and special campaigns.",
+        "Strategic collaborations to boost adoption and utility.",
+        "Global marketing strategy to expand Thai.Coin's reach and user base."
+      ],
+      active: false,
+      completed: false
+    },
+    {
+      phase: "Reserve & Buybacks",
+      title: "Web3 Integration",
+      allocation: "10% – 1,000,000 Tokens",
+      percentage: 75,
+      items: [
+        "Strategic reserves for token buybacks, ensuring price support when needed.",
+        "Buybacks funded through ecosystem revenue, increasing token demand over time.",
+        "Flexibility for future project expansions and developments.",
+        "Creates sustainable tokenomics model with built-in price stability mechanisms."
+      ],
+      active: false,
+      completed: false
+    },
+    {
+      phase: "Founder Rewards",
+      title: "Global Expansion",
+      allocation: "5% – 500,000 Tokens",
+      percentage: 100,
+      items: [
+        "Rewards for the core team and early contributors to Thai.Coin.",
+        "Tokens vested over time to ensure alignment with long-term project success.",
+        "Team commitment to Thai.Coin's vision, ensuring continuous growth.",
+        "Strategic allocation to incentivize sustainable development and innovation."
+      ],
+      active: false,
+      completed: false
+    },
+  ];
+
+  return (
+    <Box 
+      sx={{
+        position: 'relative',
+        overflow: 'hidden',
+        py: { xs: 4, md: 8 },
+        color: isDarkMode ? '#FFF' : 'inherit'
+      }}
+      id="roadmap"
+    >
+      {/* Use ParticleBackground component for consistency with HomePage1 */}
+      <ParticleBackground />
+
+      <Container maxWidth="xl" sx={{ position: "relative", zIndex: 1 }}>
+        {/* Title Section with enhanced animations */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: animate ? 1 : 0 }}
+          transition={{ duration: 1.2 }}
+        >
+          <Box sx={{ textAlign: "center", mb: { xs: 8, md: 12 }, position: "relative" }}>
+            <motion.div
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: animate ? 1 : 0, y: animate ? 0 : -30 }}
+              transition={{ duration: 1, delay: 0.2 }}
+            >
+              <Typography 
+                variant="overline" 
+                sx={{ 
+                  fontSize: { xs: '0.9rem', md: '1rem' },
+                  fontWeight: 'bold',
+                  color: isDarkMode ? '#1A237E' : '#1A237E',
+                  letterSpacing: 2,
+                  textTransform: 'uppercase',
+                  display: 'block',
+                  mb: 1
+                }}
+              >
+                THAI.COIN FUTURE VISION
+              </Typography>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: animate ? 1 : 0, scale: animate ? 1 : 0.9 }}
+              transition={{ duration: 1.2, delay: 0.4 }}
+            >
+              <Typography 
+                variant="h2" 
+                sx={{ 
+                  fontWeight: 800,
+                  color: isDarkMode ? '#000' : '#000',
+                  lineHeight: 1.1,
+                  fontSize: { xs: '2rem', sm: '2.5rem', md: '3.5rem' },
+                  mb: { xs: 2, md: 4 },
+                  fontFamily: '"BakBak One", "Roboto", sans-serif',
+                  textShadow: '2px 2px 4px rgba(0,0,0,0.1)'
+                }}
+              >
+                Our Roadmap to Success
+              </Typography>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: animate ? 1 : 0, y: animate ? 0 : 30 }}
+              transition={{ duration: 1, delay: 0.6 }}
+            >
+              <Typography 
+                variant="h6" 
+                sx={{ 
+                  fontSize: { xs: '1.1rem', md: '1.4rem' },
+                  color: isDarkMode ? '#424242' : '#424242',
+                  mb: { xs: 4, md: 6 },
+                  maxWidth: '800px',
+                  mx: 'auto'
+                }}
+              >
+                Follow the journey of Thai.Coin as we build the premier Real Estate crypto ecosystem in Thailand
+              </Typography>
+            </motion.div>
+          </Box>
+        </motion.div>
+
+        {/* Roadmap Timeline with enhanced styling */}
+        <Box sx={{ position: "relative" }}>
+          {/* Timeline vertical line with glow effect */}
+          <Box 
+            sx={{ 
+              position: "absolute",
+              top: 0,
+              height: "90%",
+              bottom: 0,
+              left: "50%",
+              width: "4px",
+              backgroundColor: "#FFD700",
+              boxShadow: "0 0 10px rgba(255, 215, 0, 0.7)",
+              transform: "translateX(-50%)",
+              zIndex: 5,
+              display: { xs: "none", md: "block" }
+            }}
+          />
+
+          {/* Animated dots on timeline */}
+          {[0.008, 0.187, 0.36, 0.545, 0.738, 0.9].map((position, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ 
+                duration: 0.8,
+                delay: 0.8 + (index * 0.2),
+                type: "spring"
+              }}
+              style={{ 
+                position: "absolute",
+                top: `${position * 100}%`,
+                left: "49%",
+                width: isMobile ? 0 : 20,
+                height: isMobile ? 0 : 20,
+                backgroundColor: "#FFD700",
+                borderRadius: "50%",
+                boxShadow: "0 0 15px rgba(255, 215, 0, 0.8)",
+                transform: "translate(-50%, -50%)",
+                zIndex: 6,
+                display: isMobile ? "none" : "block"
+              }}
+            />
+          ))}
+
+          {/* Roadmap Items - enhanced for RoadmapItems.tsx */}
+          <Stack spacing={16} sx={{ position: "relative", zIndex: 10 }}>
+            {roadmapData.map((item, index) => (
+              <RoadmapItem
+                key={index}
+                {...item}
+                index={index} 
+              />
+            ))}
+          </Stack>
+          
+          {/* Final call to action with updated click handler */}
+          <motion.div
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 1.2, delay: 0.5 }}
+  viewport={{ once: true, amount: 0.2 }} // Changed from once: false to once: true
+          >
+            <Box 
+              sx={{ 
+                textAlign: "center", 
+                mt: 16, 
+                py: 6,
+                px: 4,
+                borderRadius: 4,
+                backgroundColor: "rgba(255, 255, 255, 0.2)",
+                backdropFilter: "blur(10px)",
+                boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
+                border: "1px solid rgba(255, 255, 255, 0.3)",
+                maxWidth: "800px",
+                mx: "auto",
+              }}
+            >
+              <Typography 
+                variant="h4" 
+                sx={{ 
+                  fontWeight: "bold", 
+                  mb: 3,
+                  fontFamily: '"BakBak One", "Roboto", sans-serif',
+                  color: 'inherit',
+                }}
+              >
+                And more Roadmap Coming Soon <br/>
+                Join Us on This Exciting Journey
+              </Typography>
+              <Typography 
+                variant="body1" 
+                sx={{ 
+                  mb: 4,
+                  color: 'inherit'
+                }}
+              >
+                Thai.Coin is more than just a cryptocurrency - it's a revolution in Real Estate investment and community building in Thailand.
+              </Typography>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Box 
+                  component="button"
+                  onClick={handleJoinClick} // Use onClick handler instead of RouterLink
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 1,
+                    py: 1.5,
+                    px: 4,
+                    borderRadius: 6,
+                    fontSize: '1.1rem',
+                    fontWeight: 'bold',
+                    backgroundColor: '#FFD700',
+                    color: '#000',
+                    border: "none",
+                    cursor: "pointer",
+                    boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 215, 0, 0.3)',
+                    transition: 'all 0.3s ease',
+                    mx: "auto",
+                    "&:hover": {
+                      backgroundColor: '#FFC400',
+                      boxShadow: '0 15px 25px rgba(0, 0, 0, 0.2), 0 0 30px rgba(255, 215, 0, 0.4)',
+                    },
+                  }}
+                >
+                  <span>Join Thai.Coin Now</span>
+                  <ArrowCircleRightIcon />
+                </Box>
+              </motion.div>
+            </Box>
+          </motion.div>
+        </Box>
+      </Container>
+      
+      {/* Add SocialLinksPopup component for the Join button click */}
+      <SocialLinksPopup
+        open={showSocialPopup}
+        onClose={() => setShowSocialPopup(false)}
+        title="Connect with Thai.Coin"
+        subtitle="Join our vibrant community across these platforms to stay updated with the latest news and announcements"
+        buttonText="Return to Roadmap"
+        delay={0}
+      />
+    </Box>
+  );
+};
+
+export default RoadmapSection;
