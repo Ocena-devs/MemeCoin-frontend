@@ -11,7 +11,7 @@ import SwapDialog from './SwapDialog';
 // import { toWei } from "thirdweb/utils";
 import { client } from "../../client";
  
-const FIXED_EXCHANGE_RATE = 100;
+const FIXED_EXCHANGE_RATE = 10;
 
 const StakingPage: React.FC = () => {
   const theme = useTheme();
@@ -122,45 +122,57 @@ const StakingPage: React.FC = () => {
     console.log("No need to approve");
     
   }
+
   const handleSwap = async (): Promise<void> => {
     if (!account) {
       alert("Please connect your wallet first.");
       return;
     }
-
+  
     if (userAmount <= 0) {
       alert("Amount must be greater than 0.");
       return;
     }
-
+  
+    // Convert userAmount to Wei with 18 decimals (not 17)
     const amountInWei = BigInt(Math.floor(userAmount * 1e18));
-
+    console.log("User Amount:", userAmount);
+    console.log("Amount in Wei (18 decimals):", amountInWei.toString());
+    
+    // Convert thaiAmount to Wei with 18 decimals
+    const thaiAmountInWei = BigInt(Math.floor(thaiAmount * 1e18));
+    console.log("Thai Amount:", thaiAmount);
+    console.log("Thai Amount in Wei (18 decimals):", thaiAmountInWei.toString());
+  
     if (userBalance === undefined || amountInWei > userBalance.value) {
       alert("Insufficient token balance.");
       return;
     }
-
+  
     try {
-
-      //  Swap POL for THAI
+      // Swap POL for THAI
       const swapTx = prepareContractCall({
         contract: dexContract,
         method: "function buyTokens( uint256 _presaleId, uint256 amount) payable",
-        params: [_presaleId !== undefined ? BigInt(_presaleId) : BigInt(0), BigInt(thaiAmount * 1e18)], // todo Update presaleId
+        params: [_presaleId !== undefined ? BigInt(_presaleId) : BigInt(0), thaiAmountInWei],
         value: amountInWei,
       });
-
+  
+      console.log("Transaction params:");
+      console.log("- Presale ID:", _presaleId !== undefined ? _presaleId.toString() : "0");
+      console.log("- Thai Amount (Wei):", thaiAmountInWei.toString());
+      console.log("- Value (POL in Wei):", amountInWei.toString());
+  
       await sendTransaction(swapTx);
       
       console.log("Swap successful", swapTx);
-
+  
     } catch (error) {
       console.error("Swap failed:", error);
       alert("Swap failed. Please try again.");
     } finally {
     }
   };
-
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
